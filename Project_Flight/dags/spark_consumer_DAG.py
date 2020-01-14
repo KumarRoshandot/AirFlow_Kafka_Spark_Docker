@@ -35,7 +35,7 @@ task2 = BashOperator(
 
 task3 = DockerOperator(
     task_id = 'pyspark_consumer',
-    image='incremental_training-master_spark:latest',
+    image='Project_Flight_spark:latest',
     api_version='auto',
     auto_remove=True,
     volumes=['/usr/local/airflow/dags/src/spark_consume_data:/spark_consume_data'],
