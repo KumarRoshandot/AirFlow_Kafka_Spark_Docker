@@ -48,4 +48,5 @@
 +-----------+-----------+--------+
 
 
+## Lastly
 6) After spark loads these 2 tables (hive) , then run data_insights.py job , it will run all the sql queries which is required to get some insights from  the data , this can be seen through charts when the job completes.
