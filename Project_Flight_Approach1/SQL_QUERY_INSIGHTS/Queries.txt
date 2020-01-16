@@ -1,0 +1,31 @@
+1) From which Country are most transactions originating? How many transactions is this?
+
+    SELECT 
+    loc.CountryName as country,
+    count(distinct trans.UniqueId) as total_transactions 
+    FROM 
+    FLIGHT_TRANSACTIONS trans JOIN FLIGHT_LOCATIONS loc
+    on trans.OriginAirportCode = loc.AirportCode
+    group by loc.CountryName
+ 
+ 
+2) What's the split between domestic vs international transactions?     
+    SELECT 
+    sum(case when loc_dept.Region = loc_arival.Region then 1 else 0 end) as domestic_flights,
+    sum(case when loc_dept.Region <> loc_arival.Region then 1 else 0 end) as international_flights
+    FROM 
+    FLIGHT_TRANSACTIONS trans JOIN FLIGHT_LOCATIONS loc_dept
+    on trans.DepartureAirportCode = loc_dept.AirportCode
+    JOIN FLIGHT_LOCATIONS loc_arival
+    on trans.ArrivalAirportCode = loc_arival.AirportCode
+    
+    
+ 3) What's the distribution of number of segments included in transactions?   
+    SELECT 
+    UniqueId,
+    SegmentNumber,
+    count(1) as segment_count 
+    FROM FLIGHT_TRANSACTIONS
+    group by 
+    UniqueId,
+    SegmentNumber
