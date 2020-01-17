@@ -1,5 +1,5 @@
 # Run Insights on Flights Data  with Kafka, Airflow and Spark using Docker Compose
-### The MicroService Based Architecture linked together 
+### The Docker-Compose Based stacks linked together 
 
 This is Like Story Telling , I want to know some insights from flight transactions
 
