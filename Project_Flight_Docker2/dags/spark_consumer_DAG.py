@@ -21,7 +21,6 @@ dag = DAG(
     default_args=args,
     schedule_interval='@daily',        # set interval
     catchup=False,                    # indicate whether or not Airflow should do any runs for intervals between the start_date and the current date that haven't been run thus far
-    ,
     params={
         "checkpoint_trans_path": checkpoint_trans_path,
         "checkpoint_loc_path": checkpoint_loc_path,
