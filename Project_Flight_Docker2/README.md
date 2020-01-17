@@ -4,4 +4,4 @@
 #### Spark and Airflow will reside in same container
 
 #### Now for this Airflow Dag has been changed for JOB2 and JOB3 
-Instead of using DockerOperator , here BashOperator is been used to call spark-submit on the same server and this is the only change ,Rest all woll be same as Approach1 (Project_Flight)
+Instead of using DockerOperator , here BashOperator is been used to call spark-submit on the same server and this is the only change ,Rest all will be same as Approach1 (Project_Flight)
