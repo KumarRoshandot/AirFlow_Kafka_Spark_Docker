@@ -5,14 +5,6 @@ from airflow.models import DAG
 from airflow.operators.bash_operator import BashOperator
 from airflow.operators.docker_operator import DockerOperator
 
-
-CLIENT = 'kafka:9092'
-TOPICS = 'transactions,locations'
-
-checkpoint_trans_path = "/tmp/flight/transaction_checkpoint"
-checkpoint_loc_path = "/tmp/flight/location_checkpoint"
-
-
 args = {
     'owner': 'airflow',
     'description': 'spark Consumer via Docker Operator',
