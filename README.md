@@ -1,5 +1,5 @@
 # AirFlow_Kafka_Spark_Docker
-This is a recipe for micro service based architecture based on airflow, kafka,spark,docker
+This is a recipe for Composing ingredients based on airflow, kafka,spark and cooking it in docker containers using docker-compose.
 
 This is Like Story Telling , 
 
