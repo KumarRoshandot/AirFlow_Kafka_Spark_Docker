@@ -20,7 +20,7 @@ dag = DAG(
 
 task1 = BashOperator(
      task_id='data_insight',
-     bash_command='/usr/spark/bin/spark-submit --master local[*] /spark_consume_data/data_insights.py',
+     bash_command='/usr/spark/bin/spark-submit --master local[*] /usr/local/airflow/dags/src/spark_consume_data/data_insights.py',
      dag=dag,
         )
 
