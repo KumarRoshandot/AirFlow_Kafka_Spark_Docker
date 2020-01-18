@@ -46,7 +46,15 @@ task2 = BashOperator(                     # Creating checkpoint Directory if not
 # submitting spark job through shell and passing necessary arguments
 task3 = BashOperator(
      task_id='pyspark_consumer',
-     bash_command='/usr/spark-2.4.1/bin/spark-submit --master local[*] /usr/local/airflow/dags/src/spark_consume_data/pyspark_consumer.py {{ params.checkpoint_trans_path }} {{ params.checkpoint_loc_path }} {{ params.CLIENT }} {{ params.TOPICS }}',
+     bash_command='/usr/spark-2.4.1/bin/spark-submit '
+                  '--master local[*] '
+                  '--packages org.apache.spark:spark-streaming-kafka-0-10_2.11:2.4.1,'
+                  'org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.1 '
+                  '/usr/local/airflow/dags/src/spark_consume_data/pyspark_consumer.py '
+                  '{{ params.checkpoint_trans_path }} '
+                  '{{ params.checkpoint_loc_path }} '
+                  '{{ params.CLIENT }} '
+                  '{{ params.TOPICS }}',
      dag=dag,
         )
 
