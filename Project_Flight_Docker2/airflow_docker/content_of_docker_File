@@ -21,11 +21,15 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 RUN mkdir -p /usr/share/man/man1
+
 # JAVA
 RUN apt-get update \
  && apt-get install -y openjdk-8-jre \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
+ 
+# Define commonly used JAVA_HOME variable
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
 RUN apt-get update \
  && apt-get install -y vim \
@@ -49,6 +53,24 @@ RUN curl -sL --retry 3 \
  && rm -rf $HADOOP_HOME/share/doc \
  && chown -R root:root $HADOOP_HOME
 
+# Install Hive
+ENV HIVE_VERSION 3.0.0
+ENV HIVE_HOME /usr/apache-hive-$HIVE_VERSION-bin
+ENV HIVE_CONF_DIR=$HIVE_HOME/conf
+ENV PATH $PATH:$HIVE_HOME/bin
+RUN mkdir -p $HIVE_HOME
+RUN curl -sL --retry 3 \
+  "https://archive.apache.org/dist/hive/hive-$HIVE_VERSION/apache-hive-$HIVE_VERSION-bin.tar.gz" \
+    | gunzip \
+    | tar -x -C /usr/ \
+  && chown -R root:root $HIVE_HOME \
+  && mkdir -p $HIVE_HOME/hcatalog/var/log \
+  && mkdir -p $HIVE_HOME/var/log \
+  && mkdir -p /data/hive/ \
+  && mkdir -p $HIVE_CONF_DIR \
+  && chmod 777 $HIVE_HOME/hcatalog/var/log \
+  && chmod 777 $HIVE_HOME/var/log
+
 # SPARK
 ENV SPARK_VERSION 2.4.1
 ENV SPARK_PACKAGE spark-${SPARK_VERSION}-bin-without-hadoop
@@ -65,4 +87,6 @@ RUN curl -sL --retry 3 \
 WORKDIR $SPARK_HOME
 USER $USERNAME
 RUN whoami
+EXPOSE 9083
+
 CMD ["bin/spark-class", "org.apache.spark.deploy.master.Master"]
