@@ -25,6 +25,12 @@ dag = DAG(
     default_args=args,
     schedule_interval='@daily',        # set interval
     catchup=False,                    # indicate whether or not Airflow should do any runs for intervals between the start_date and the current date that haven't been run thus far
+    params={
+        "checkpoint_trans_path": checkpoint_trans_path,
+        "checkpoint_loc_path": checkpoint_loc_path,
+        "CLIENT": CLIENT,
+        "TOPICS": TOPICS
+    }
 )
 
 task2 = BashOperator(
@@ -39,7 +45,7 @@ task3 = DockerOperator(
     api_version='auto',
     auto_remove=True,
     volumes=['/usr/local/airflow/dags/src/spark_consume_data:/spark_consume_data'],
-    command='/usr/spark/bin/spark-submit --master local[*] /spark_consume_data/pyspark_consumer.py "$checkpoint_trans_path $checkpoint_loc_path $CLIENT $TOPICS"',
+    command='/usr/spark/bin/spark-submit --master local[*] /spark_consume_data/pyspark_consumer.py {{ params.checkpoint_trans_path }} {{ params.checkpoint_loc_path }} {{ params.CLIENT }} {{ params.TOPICS }}',
     #docker_url='localhost:5000',
     network_mode='bridge',
     dag=dag,
