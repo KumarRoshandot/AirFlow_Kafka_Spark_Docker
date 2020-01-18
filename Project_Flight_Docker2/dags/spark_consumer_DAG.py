@@ -16,6 +16,7 @@ args = {
     'provide_context': True,                            # this is set to True as we want to pass variables on from one task to another
 }
 
+# Adding necessary parameters which we require to pass in spark-submit
 dag = DAG(
     dag_id='spark_consumer_DAG',
     default_args=args,
