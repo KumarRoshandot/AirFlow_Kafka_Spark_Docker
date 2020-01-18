@@ -126,6 +126,7 @@ def main():
     spark = SparkSession \
         .builder \
         .appName("Pyspark_consumer") \
+        .config("kafka.partition.assignment.strategy", "range") \
         .getOrCreate()
 
     pyspark_consumer(checkpoint_trans_path,checkpoint_loc_path,CLIENT,TOPICS,spark)
