@@ -4,8 +4,6 @@ from pyspark.sql.types import *
 import os
 import sys
 from time import sleep
-os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.1.0,' \
-                                               'org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.4'
 
 
 def consume_locations(input_df,checkpoint_path):
@@ -82,13 +80,13 @@ def consume_transactions(input_df,checkpoint_path):
     sleep(10)
 
 
-def pyspark_consumer(**kwargs):
+def pyspark_consumer(checkpoint_trans_path,checkpoint_loc_path,CLIENT,TOPICS,spark):
 
-    spark = kwargs['spark']
-    checkpoint_trans_path = kwargs['checkpoint_trans_path']
-    checkpoint_loc_path = kwargs['checkpoint_loc_path']
-    client = kwargs['CLIENT']
-    topics = kwargs['TOPICS']
+    spark = spark
+    checkpoint_trans_path = checkpoint_trans_path
+    checkpoint_loc_path = checkpoint_loc_path
+    client = CLIENT
+    topics = TOPICS
 
     trans_df = spark \
         .readStream \
@@ -120,7 +118,7 @@ def pyspark_consumer(**kwargs):
 
 def main():
 
-    checkpoint_trans_path =  sys.argv[1]
+    checkpoint_trans_path = sys.argv[1]
     checkpoint_loc_path = sys.argv[2]
     CLIENT = sys.argv[3]
     TOPICS = sys.argv[4]
@@ -128,16 +126,9 @@ def main():
     spark = SparkSession \
         .builder \
         .appName("Pyspark_consumer") \
-        .enableHiveSupport()\
         .getOrCreate()
 
-    op_kwargs = {'checkpoint_trans_path': checkpoint_trans_path,
-                 'checkpoint_loc_path': checkpoint_loc_path,
-                 'CLIENT': CLIENT,
-                 'TOPICS': TOPICS,
-                 'spark':spark}
-
-    pyspark_consumer(op_kwargs)
+    pyspark_consumer(checkpoint_trans_path,checkpoint_loc_path,CLIENT,TOPICS,spark)
 
 
 if __name__ == "__main__":
