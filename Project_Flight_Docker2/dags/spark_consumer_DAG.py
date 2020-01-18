@@ -16,7 +16,6 @@ args = {
     'provide_context': True,                            # this is set to True as we want to pass variables on from one task to another
 }
 
-# Adding necessary parameters which we require to pass in spark-submit
 dag = DAG(
     dag_id='spark_consumer_DAG',
     default_args=args,
@@ -30,15 +29,16 @@ dag = DAG(
     }
 )
 
-# Creating checkpoint Directory if not exists
-task1 = BashOperator(
-     task_id='creating_checkpoint_directory1',
+
+task1 = BashOperator(                    # Creating checkpoint Directory if not exists
+     task_id='checkpoint_directory_trans',
      bash_command='mkdir -p {{ params.checkpoint_trans_path }}',
      dag=dag,
         )
 
-task2 = BashOperator(
-     task_id='creating_checkpoint_directory1',
+
+task2 = BashOperator(                     # Creating checkpoint Directory if not exists
+     task_id='checkpoint_directory_loc',
      bash_command='mkdir -p {{ params.checkpoint_loc_path }}',
      dag=dag,
         )
@@ -46,7 +46,7 @@ task2 = BashOperator(
 # submitting spark job through shell and passing necessary arguments
 task3 = BashOperator(
      task_id='pyspark_consumer',
-     bash_command='/usr/spark-2.4.1/bin/spark-submit --master local[*] /spark_consume_data/pyspark_consumer.py {{ params.checkpoint_trans_path }} {{ params.checkpoint_loc_path }} {{ params.CLIENT }} {{ params.TOPICS }}',
+     bash_command='/usr/spark-2.4.1/bin/spark-submit --master local[*] /usr/local/airflow/dags/src/spark_consume_data/pyspark_consumer.py {{ params.checkpoint_trans_path }} {{ params.checkpoint_loc_path }} {{ params.CLIENT }} {{ params.TOPICS }}',
      dag=dag,
         )
 
