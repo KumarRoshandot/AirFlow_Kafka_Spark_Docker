@@ -2,8 +2,8 @@ from pyspark.sql import SparkSession
 from matplotlib import pyplot
 
 
-def max_originating_trans(**kwargs):
-    spark = kwargs['spark']
+def max_originating_trans(spark):
+    spark = spark
     sql = '''
     SELECT 
     loc.CountryName as country,
@@ -37,8 +37,8 @@ def max_originating_trans(**kwargs):
     #pdf.plot(kind='barh',x='total_transactions',y='country',colormap='winter_r')
 
 
-def split_domestic_international(**kwargs):
-    spark = kwargs['spark']
+def split_domestic_international(spark):
+    spark = spark
     sql = '''
     SELECT 
     sum(case when loc_dept.Region = loc_arival.Region then 1 else 0 end) as domestic_flights,
@@ -62,8 +62,8 @@ def split_domestic_international(**kwargs):
     pyplot.show()
 
 
-def distribution_segments(**kwargs):
-    spark = kwargs['spark']
+def distribution_segments(spark):
+    spark = spark
     sql = '''
     SELECT 
     UniqueId,
