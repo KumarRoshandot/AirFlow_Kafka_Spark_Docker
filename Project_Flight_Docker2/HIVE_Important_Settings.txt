@@ -1,0 +1,32 @@
+Couple of HIVE setups required before you run dags .
+
+1) When the Airflow server is up and running (localhost:8080)
+2) Open COmmand Prompt , enter following commands:-
+     -> docker container ls
+	 -> Look for Image and name of which has name airflow_container , let say image_airflow
+	 -> docker exec -ti airflow_container bash ( by this you have entered into airflow_container
+	 -> echo $JAVA_HOME 
+	 -> if it shows java version then well and good else export java_home with below command
+	 -> export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
+	 -> source ~/.bashrc
+
+
+3) Hive setups after point 1 and 2.( Hive meta store db needs to be started ,so )
+	a) Before you run hive for the first time, run
+
+	  -> schematool -initSchema -dbType derby
+
+	b) If you already ran hive and then tried to initSchema and it's failing:
+
+	  -> cd /data/hive/
+	  -> mv metastore_db metastore_db.tmp
+
+	c) Re run
+      -> schematool -initSchema -dbType derby
+
+    d) Run	/opt/apache-hive-2.0.1-bin/bin/hive --service metastore
+    e) NOw trigger the DAG from Airflow UI
+  	f) OPen another command prompt 
+			->  docker exec -ti airflow_container bash
+			-> /usr/apache-hive-3.0.0-bin/bin/hive
+			-> Now you are in hive shell
