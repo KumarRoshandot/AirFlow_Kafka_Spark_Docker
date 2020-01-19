@@ -82,6 +82,7 @@ def main():
     spark = SparkSession \
         .builder \
         .appName("FLIGHT_INSIGHTS") \
+        .enableHiveSupport()\
         .getOrCreate()
 
     max_originating_trans(spark)
