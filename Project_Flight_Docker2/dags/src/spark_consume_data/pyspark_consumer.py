@@ -126,6 +126,7 @@ def main():
     spark = SparkSession \
         .builder \
         .appName("Pyspark_consumer") \
+        .enableHiveSupport()\
         .config("kafka.partition.assignment.strategy", "range") \
         .getOrCreate()
 
