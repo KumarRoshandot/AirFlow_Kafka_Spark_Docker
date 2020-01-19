@@ -19,4 +19,6 @@
 3) I had to specify '--conf "spark.driver.extraClassPath=$SPARK_HOME/jars/kafka-clients-1.1.0.jar" ' while passing spark-submit .
 and walaaa it ran successfully ...:)
 
+### HIve Important Settings Before triggering DAGs.
+PLease read HIve_important_settings.txt
 
